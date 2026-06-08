@@ -7,9 +7,22 @@ ForgeFIX/J accepts FIX orders, normalizes them, routes them over a shared-memory
 ## Planned architecture
 
 ```
-FIX client ──▶ gateway ──▶ bus ──▶ matching engine ──▶ persistence
-                 │ (QuickFIX/J)  │ (Aeron/Agrona)  │ (price-time)   │ (Chronicle Queue)
-                 ◀──────────────────── execution reports ──────────┘
+FIX client
+    │
+    ▼
+ gateway            (QuickFIX/J)        FIX session handling, ingress/egress
+    │
+    ▼
+   bus              (Aeron / Agrona)    inter-component messaging
+    │
+    ▼
+matching engine     (price-time)        order matching
+    │
+    ▼
+persistence         (Chronicle Queue)   event journaling, state recovery
+    │
+    ▼
+execution reports  ──▶  back to FIX client
 ```
 
 | Module | Responsibility | Stack |
@@ -30,7 +43,7 @@ FIX client ──▶ gateway ──▶ bus ──▶ matching engine ──▶ p
 
 ## Status
 
-Early development. Modules and benchmarks land incrementally; the README reflects the target design, not yet the current state. Build and run instructions will follow once the gateway-to-engine path is live.
+Early development. Modules and benchmarks land incrementally; this README reflects the target design, not yet the current state. Build and run instructions will follow once the gateway-to-engine path is live.
 
 ## License
 
