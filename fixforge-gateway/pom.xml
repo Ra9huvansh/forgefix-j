@@ -5,11 +5,54 @@
          https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-<parent>
-    <groupId>com.fixforge</groupId>
-    <artifactId>fixforge</artifactId>
-    <version>0.1.0-SNAPSHOT</version>
-</parent>
+    <parent>
+        <groupId>com.fixforge</groupId>
+        <artifactId>fixforge</artifactId>
+        <version>0.1.0-SNAPSHOT</version>
+    </parent>
 
-<artifactId>fixforge-gateway</artifactId>
+    <artifactId>fixforge-gateway</artifactId>
+
+    <properties>
+        <quickfixj.version>2.3.2</quickfixj.version>
+        <slf4j.version>1.7.30</slf4j.version>
+        <exec.mainClass>com.fixforge.gateway.GatewayMain</exec.mainClass>
+    </properties> 
+
+    <dependencies>
+
+        <dependency>
+            <groupId>org.quickfixj</groupId>
+            <artifactId>quickfixj-core</artifactId>
+            <version>${quickfixj.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.quickfixj</groupId>
+            <artifactId>quickfixj-messages-fix44</artifactId>
+            <version>${quickfixj.version}</version>
+        </dependency>
+
+        <!-- QFJ only ships slf4j-apil we add the runtime binding -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
+            <version>${slf4j.version}</version>
+            <scope>runtime</scope>
+        </dependency>
+        
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>3.5.0</version>
+                <configuration>
+                    <mainClass>${exec.mainClass}</mainClass>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>
